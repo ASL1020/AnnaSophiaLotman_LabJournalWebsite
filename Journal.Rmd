@@ -14,115 +14,375 @@ output:
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
 
-IMPORTANT: You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.
 
 
-This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header.
+# Assignment 1
 
-# My first post
 
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
+### Problem 1 
 
-Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
+Install the datasets package on the console below. Now load the library.
+Answer: I’ve loaded the library!
 
-## Second level header
+Load the USArrests dataset and rename it `dat`. Note that this dataset comes with R, in the package datasets, so there's no need to load data from your computer. Why is it useful to rename the dataset?
 
-You can add more headers by adding more hashtags. These won't be put into the table of contents
-
-### third level header
-
-Here's an even lower level header
-
-# My second post (note the order)
-
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
-
-I'm writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom
-
-# Adding R stuff
-
-So far this is just a blog where you can write in plain text and serve your writing to a webpage. One of the main purposes of this lab journal is to record your progress learning R. The reason I am asking you to use this process is because you can both make a website, and a lab journal, and learn R all in R-studio. This makes everything really convenient and in the sam place. 
-
-So, let's say you are learning how to make a histogram in R. For example, maybe you want to sample 100 numbers from a normal distribution with mean = 0, and standard deviation =1, and then you want to plot a histogram. You can do this right here by using an r code block, like this:
+Answer: Well, we want to replicate analyses. That’s why it’s nice to rename data.
 
 ```{r}
-samples <- rnorm(100, mean=0, sd=1)
-hist(samples)
+dat <- USArrests
 ```
 
-When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag), from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You learn all of these things and more can be customized in each R code block.
+### Problem 2
 
-# The big idea
+Use this command to make the state names into a new variable called State. 
 
-Use this lab journal to record what you do in R. This way I will be able to see what you are doing and help you along the way. You will also be creating a repository of all the things you do. You can make posts about everything. Learning specific things in R (project unrelated), and doing things for the project that we will discuss at the beginning of the Fall semester. You can get started now by fiddling around with googling things, and trying stuff out in R. I've placed some helpful starting links in the links page on this website
+```{r, eval=TRUE}
+dat$state <- tolower(rownames(USArrests))
+```
 
-# What can you do right now by yourself?
+This dataset has the state names as row names, so we just want to make them into a new variable. We also make them all lower case, because that will help us draw a map later - the map function requires the states to be lower case.
 
-It's hard to learn programming when you don't have specific problems that you are trying to solve. Everything just seems abstract.
 
-I wrote an [introductory programming book that introduces R](https://crumplab.github.io/programmingforpsych/), and gives some [concrete problems for you to solve](https://crumplab.github.io/programmingforpsych/programming-challenges-i-learning-the-fundamentals.html). 
-
-To get the hang of journaling and solving the problems to learn programming, my suggestion is that you use this .Rmd file to solve the problems. It would look like this:
-
-# Problem 1
-
-Do simple math with numbers, addition, subtraction, multiplication, division
+List the variables contained in the dataset `USArrests`.
 
 ```{r}
-1+2
-2*5
-5/3
-(1+6+4)/5
-
+names(dat)
 ```
 
-# Problem 2
+The four variables are Murder, Assault, UrbanPop, and Rape.
 
-Put numbers into variables, do simple math on the variables
+
+### Problem 3 
+
+What type of variable (from the DVB chapter) is `Murder`? 
+
+Answer: quantitative variable
+
+What R Type of variable is it?
+
+Answer: double
+
+
+### Problem 4
+
+What information is contained in this dataset, in general? What do the numbers mean? 
+
+Answer: The rate of crimes per state. 
+
+### Problem 5
+
+Draw a histogram of `Murder` with proper labels and title.
 
 ```{r}
-a<-1
-b<-2
-a+b
-
-d<-c(1,2,3)
-e<-c(5,6,7)
-d+e
-d*e
-d/e
-
+hist(dat$Murder)
 ```
 
-# Problem 3
 
-Write code that will place the numbers 1 to 100 separately into a variable using for loop. Then, again using the seq function.
+### Problem 6
+
+Please summarize `Murder` quantitatively. What are its mean and median? What is the difference between mean and median? What is a quartile, and why do you think R gives you the 1st Qu. and 3rd Qu.?
 
 ```{r}
-# for loop solution
-# i becomes the number 1 to 100 at each step of the loop
+summary(dat$Murder)
+```
+
+### Problem 7
+
+Repeat the same steps you followed for `Murder`, for the variables `Assault` and `Rape`. Now plot all three histograms together. You can do this by using the command `par(mfrow=c(3,1))` and then plotting each of the three. 
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 8}
+hist(dat$Assault)
+hist(dat$Rape)
+par(mfrow=c(3,1))
+hist(dat$Murder)
+hist(dat$Assault)
+hist(dat$Rape)
+```
+
+What does the command par do, in your own words (you can look this up by asking R `?par`)?
+
+Answer:
+
+What can you learn from plotting the histograms together?
+
+Answer:By plotting the histograms together you can compare and contrast the data within the same parameters. 
+  
+### Problem 8
+
+In the console below (not in text), type install.packages("maps") and press Enter, and then type install.packages("ggplot2") and press Enter. This will install the packages so you can load the libraries.
+
+Run this code:
+
+```{r, eval = TRUE, fig.width = 7.5, fig.height = 4}
+library('maps') 
+library('ggplot2') 
+
+ggplot(dat, aes(map_id=state, fill=Murder)) + 
+  geom_map(map=map_data("state")) + 
+  expand_limits(x=map_data("state")$long, y=map_data("state")$lat)
+```
 
 
-a <- length(100) # make empty variable, set length to 100
-for (i in 1:100){
-  a[i] <-i #assigns the number in i, to the ith index of a
-}
 
-print(a)
 
-# for loop solution #2
 
-a<-c() #create empty variable using combine command
-for (i in 1:100){
-  a<-c(a,i) # keeps combining a with itself and the new number in i
-}
-print(a)
 
-# seq solution
-a <- seq(1,100,1) # look up help for seq using ?seq() in console
-print(a)
+# Assignment 2
+
+### Problem 1: Load data
+
+Set your working directory to the folder where you downloaded the data.
+```{r}
+# setwd("~/Documents/GitHub/annsophia1020/AnnaSophiaLotman_LabJournalWebsite")
+dat <- read.csv("dat.nsduh.small.1.csv")
+```
+
+
+What are the dimensions of the dataset? 
+
+Dimensions are 171x7
+
+```{r}
+names(dat)
+dim(dat)
+```
+
+### Problem 2: Variables
+```{r}
+variable.names(dat)
+
+# Describe the variables in the dataset.
+# "mjage"     "cigage"    "iralcage"  "age2" "sexatract" "speakengl" "irsex"
+
+
+# What is this dataset about? Who collected the data, what kind of sample is it, and what was the purpose of generating the data?
+# The dataset is about the correlation between illicit drugs and alcohol and tobacco use and mental health in the USA.
+# The sample was collected by the NSDUH
+# It is a state level small area estimate sample 
+# The purpose of generating the data was to spot a correlation and trend to better respond to the issues of both drug use and mental illness. 
+```
+
+### Problem 3: Age and gender
+```{r}
+hist(dat$age2)
+
+
+# What is the age distribution of the sample like? Make sure you read the codebook to know what the variable values mean.
+# Sampled those 12 and under. 
+#The age distribution isn't as level as It should be it weighs more between the ages categories of 12 and 16. But this does seem to caputure the majority of the ages that would be using. 
+
+# Do you think this age distribution representative of the US population? Why or why  not?
+# I think it's a good representation although with any self reporting study, especially one with such a personal variable I think it's possible that even the reporting of one's age could be disrupted. 
+
+# Is the sample balanced in terms of gender? If not, are there more females or males?
+# If I am reading the table correctly it looks as though there are more males than females being surveyed. But overall yes it is very balanced. 
+
+# Use this code to draw a stacked bar plot to view the relationship between sex and age. What can you conclude from this plot?
+```
+
+```{r}
+tab.agesex <- table(dat$irsex, dat$age2)
+barplot(tab.agesex,
+        main = "Stacked barchart",
+        xlab = "Age category", ylab = "Frequency",
+        legend.text = rownames(tab.agesex),
+        beside = FALSE) # Stacked bars (default)
+#You can clearly see the correlation between age and sex.
+```
+
+
+
+
+
+### Problem 4: Substance use
+
+```{r}
+# For which of the three substances included in the dataset (marijuana, alcohol, and cigarettes) do individuals tend to use the substance earlier?
+#Cigarettes
+
+hist(dat$mjage)
+hist(dat$cigage)
+```
+
+
+
+### Problem 5: Sexual attraction
+```{r}
+hist(dat$irsex)
+hist(dat$sexatract)
+
+
+# What does the distribution of sexual attraction look like? Is this what you expected?
+#The distribution of sexual attraction seemed to be very skewed. There is a much higher report of heterosexual attraction on average than there is in the US. 
+#I do, however, understand how subjects would refuse to answer such a personal question especially if they felt their answer could produced some sort of bias's towards their sexual prefrence. 
+
+# What is the distribution of sexual attraction by gender? 
+#It's a pretty good distribution it's almost level. It seems as though there is just a small margin of difference. 
+```
+
+
+### Problem 6: English speaking
+```{r}
+hist(dat$speakengl)
+
+# What does the distribution of English speaking look like in the sample? Is this what you might expect for a random sample of the US population?
+#Yes this is what I would expect for a random US Sample population. The distribution is almost all the way skewed towards the "very well" category and only a small margin fell right before the "well" category and as expected an even smaller margin reported they did not speak english.
+# Are there more English speaker females or males?
+#The stacked barchart shows there are more English speaking males than females.
+```
+
+```{r}
+tab.agespeakengl <- table(dat$speakengl, dat$age2)
+```
+
+```{r}
+tab.speakenglsex <- table(dat$irsex, dat$speakengl)
+barplot(tab.speakenglsex,
+        main = "Stacked barchart",
+        xlab = "Sex category", ylab = "Frequency",
+        legend.text = rownames(tab.speakenglsex),
+        beside = FALSE) # Stacked bars (default)
+```
+
+
+
+
+
+# Exam 1
+
+### Problem 1 (10 points)
+
+a. Describe the dataset. This is the source: https://github.com/washingtonpost/data-police-shootings . Write two sentences (max.) about this.
+
+__The Washing Post Dataset contains detailed records of every known fatal shooting by a a police officer while he was on the clock.  The Dataset has also noted specific details about the deceased such as gender, age, race, the circumstance of the shooting and whether or not the person was experiencing a mental health crisis. 
+
+```{r}
+dat <- read.csv("fatal-police-shootings-data.csv")
+```
+
+b. How many observations are there in the data frame?
+
+
+There are 6594 observations in the date frame. 
+
+c. Look at the names of the variables in the data frame. Describe what "body_camera", "flee", and "armed" represent, according to the codebook. Again, only write one sentence (max) per variable.
+
+"body-camera" refers to if the officer was wearing a body camera because it may have recorded some portion of the incident. 
+"flee" refers to when the vicitm was moving away from the officers. 
+"armed" indicates that the victim was armed with something that the police officer believed could inflict harm.
+
+d. What are three weapons that you are surprised to find in the "armed" variable? Make a table of the values in "armed" to see the options.
+
+```{r}
+table(dat$armed)
+```
+
+I was surprised to "binoculars" "pen" "air conditioner".
+
+
+### Problem 2 (10 points)
+
+a. Describe the age distribution of the sample. Is this what you would expect to see?
+```{r}
+table(dat$age)
+```
+
+__The age distribution is about what I expected, of course the younger ages were concerning but not suprising.__
+
+b. To understand the center of the age distribution, would you use a mean or a median, and why? Find the one you picked.
+
+To find the center or age distribution I would use the meean. Even if we lined up all the varibles in order and used the median distribution we wouldn't really see the the middle of distrubtion because there are so many duplicate values. The mean would record a more accurate display of the center of distrubtion. 
+
+
+c. Describe the gender distribution of the sample. Do you find this surprising?
+```{r}
+table(dat$gender)
+
+#The gender distrubtion isn't equal which makes sense. It's recording far more male victims than female victimes, I am not suprised by this.
 
 ```
 
-# Replace this with problem 4
+__Your answer here.__
 
-And keep going. Try to solve the problems with different scripts that provide the same solution. Good luck, Happy coding.
+
+### Problem 3 (10 points)
+
+a. How many police officers had a body camera, according to news reports? What proportion is this of all the incidents in the data? Are you surprised that it is so high or low?
+
+```{r}
+table(dat$body_camera)
+#I not suprised by this report. Only 910 police officers had a body camera. In terms of these recordings, this is only a little bit more than a sixth of the incidents recorded. 
+
+```
+
+__Your answer here.__
+
+b. In  how many of the incidents was the victim fleeing? What proportion is this of the total number of incidents in the data? Is this what you would expect?
+```{r}
+table(dat$flee)
+#About 2394 of the incidents included incidents of victim fleeing. This is about less than half of the total incidents. I would expect the rate to be higher, or for the reports, by the officers, of the fleeing to be higher. 
+
+```
+
+__Your answer here.__
+
+
+
+### Problem 4 (10 points) -  Answer only one of these (a or b).
+
+a. Describe the relationship between the variables "body camera" and "flee" using a stacked barplot. What can you conclude from this relationship? 
+
+*Hint 1: The categories along the x-axis are the options for "flee", each bar contains information about whether the police officer had a body camera (vertically), and the height along the y-axis shows the frequency of that category).*
+
+*Hint 2: Also, if you are unsure about the syntax for barplot, run ?barplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.*
+
+
+```{r}
+?barplot
+counts <- table(dat$body_camera, dat$flee)
+barplot(counts, col=c("red", "blue"), legend=TRUE)
+
+#The relationship between the use of body cameras and the product the victims fleeing implies some sort of quantitative corrleation but not a dinifitive casuation. Just because a police officer has a camera means the victim will flee. 
+
+
+
+```
+
+__Your answer here.__
+
+b. Describe the relationship between age and race by using a boxplot. What can you conclude from this relationship? 
+
+*Hint 1: The categories along the x-axis are the race categories and the height along the y-axis is age.* 
+
+*Hint 2: Also, if you are unsure about the syntax for boxplot, run ?boxplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.*
+
+
+```{r}
+plot(factor(dat$race), dat$number.of.convictions, ylab="Convictions", xlab="Race", names=c("A. Indian","Asian","Black","Native Hawaii","White"))
+
+```
+
+
+__Your answer here.__
+
+
+
+
+
+
+### Extra credit (10 points)
+
+a. What does this code tell us? 
+
+```{r, eval=FALSE}
+mydates <- as.Date(dat$date)
+head(mydates)
+(mydates[length(mydates)] - mydates[1])
+```
+
+b. On Friday, a new report was published that was described as follows by The Guardian: "More than half of US police killings are mislabelled or not reported, study finds." Without reading this article now (due to limited time), why do you think police killings might be mislabelled or underreported?
+
+c. Regarding missing values in problem 4, do you see any? If so, do you think that's all that's missing from the data?
+
+
+

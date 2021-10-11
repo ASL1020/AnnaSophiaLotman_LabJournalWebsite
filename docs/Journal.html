@@ -343,118 +343,385 @@ div.tocify {
 </div>
 
 
-<p>IMPORTANT: You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.</p>
-<p>This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header.</p>
-<div id="my-first-post" class="section level1">
-<h1>My first post</h1>
-<p>2018 | 7 | 23 Last compiled: 2021-10-10</p>
-<p>Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left.</p>
-<div id="second-level-header" class="section level2">
-<h2>Second level header</h2>
-<p>You can add more headers by adding more hashtags. These won’t be put into the table of contents</p>
-<div id="third-level-header" class="section level3">
-<h3>third level header</h3>
-<p>Here’s an even lower level header</p>
+<div id="assignment-1" class="section level1">
+<h1>Assignment 1</h1>
+<div id="problem-1" class="section level3">
+<h3>Problem 1</h3>
+<p>Install the datasets package on the console below. Now load the library. Answer: I’ve loaded the library!</p>
+<p>Load the USArrests dataset and rename it <code>dat</code>. Note that this dataset comes with R, in the package datasets, so there’s no need to load data from your computer. Why is it useful to rename the dataset?</p>
+<p>Answer: Well, we want to replicate analyses. That’s why it’s nice to rename data.</p>
+<pre class="r"><code>dat &lt;- USArrests</code></pre>
+</div>
+<div id="problem-2" class="section level3">
+<h3>Problem 2</h3>
+<p>Use this command to make the state names into a new variable called State.</p>
+<pre class="r"><code>dat$state &lt;- tolower(rownames(USArrests))</code></pre>
+<p>This dataset has the state names as row names, so we just want to make them into a new variable. We also make them all lower case, because that will help us draw a map later - the map function requires the states to be lower case.</p>
+<p>List the variables contained in the dataset <code>USArrests</code>.</p>
+<pre class="r"><code>names(dat)</code></pre>
+<pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;     &quot;state&quot;</code></pre>
+<p>The four variables are Murder, Assault, UrbanPop, and Rape.</p>
+</div>
+<div id="problem-3" class="section level3">
+<h3>Problem 3</h3>
+<p>What type of variable (from the DVB chapter) is <code>Murder</code>?</p>
+<p>Answer: quantitative variable</p>
+<p>What R Type of variable is it?</p>
+<p>Answer: double</p>
+</div>
+<div id="problem-4" class="section level3">
+<h3>Problem 4</h3>
+<p>What information is contained in this dataset, in general? What do the numbers mean?</p>
+<p>Answer: The rate of crimes per state.</p>
+</div>
+<div id="problem-5" class="section level3">
+<h3>Problem 5</h3>
+<p>Draw a histogram of <code>Murder</code> with proper labels and title.</p>
+<pre class="r"><code>hist(dat$Murder)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="problem-6" class="section level3">
+<h3>Problem 6</h3>
+<p>Please summarize <code>Murder</code> quantitatively. What are its mean and median? What is the difference between mean and median? What is a quartile, and why do you think R gives you the 1st Qu. and 3rd Qu.?</p>
+<pre class="r"><code>summary(dat$Murder)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.800   4.075   7.250   7.788  11.250  17.400</code></pre>
+</div>
+<div id="problem-7" class="section level3">
+<h3>Problem 7</h3>
+<p>Repeat the same steps you followed for <code>Murder</code>, for the variables <code>Assault</code> and <code>Rape</code>. Now plot all three histograms together. You can do this by using the command <code>par(mfrow=c(3,1))</code> and then plotting each of the three.</p>
+<pre class="r"><code>hist(dat$Assault)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
+<pre class="r"><code>hist(dat$Rape)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-6-2.png" width="480" /></p>
+<pre class="r"><code>par(mfrow=c(3,1))
+hist(dat$Murder)
+hist(dat$Assault)
+hist(dat$Rape)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-6-3.png" width="480" /></p>
+<p>What does the command par do, in your own words (you can look this up by asking R <code>?par</code>)?</p>
+<p>Answer:</p>
+<p>What can you learn from plotting the histograms together?</p>
+<p>Answer:By plotting the histograms together you can compare and contrast the data within the same parameters.</p>
+</div>
+<div id="problem-8" class="section level3">
+<h3>Problem 8</h3>
+<p>In the console below (not in text), type install.packages(“maps”) and press Enter, and then type install.packages(“ggplot2”) and press Enter. This will install the packages so you can load the libraries.</p>
+<p>Run this code:</p>
+<pre class="r"><code>library(&#39;maps&#39;) 
+library(&#39;ggplot2&#39;) 
+
+ggplot(dat, aes(map_id=state, fill=Murder)) + 
+  geom_map(map=map_data(&quot;state&quot;)) + 
+  expand_limits(x=map_data(&quot;state&quot;)$long, y=map_data(&quot;state&quot;)$lat)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
 </div>
 </div>
+<div id="assignment-2" class="section level1">
+<h1>Assignment 2</h1>
+<div id="problem-1-load-data" class="section level3">
+<h3>Problem 1: Load data</h3>
+<p>Set your working directory to the folder where you downloaded the data.</p>
+<pre class="r"><code># setwd(&quot;~/Documents/GitHub/annsophia1020/AnnaSophiaLotman_LabJournalWebsite&quot;)
+dat &lt;- read.csv(&quot;dat.nsduh.small.1.csv&quot;)</code></pre>
+<p>What are the dimensions of the dataset?</p>
+<p>Dimensions are 171x7</p>
+<pre class="r"><code>names(dat)</code></pre>
+<pre><code>## [1] &quot;mjage&quot;     &quot;cigage&quot;    &quot;iralcage&quot;  &quot;age2&quot;      &quot;sexatract&quot; &quot;speakengl&quot;
+## [7] &quot;irsex&quot;</code></pre>
+<pre class="r"><code>dim(dat)</code></pre>
+<pre><code>## [1] 171   7</code></pre>
 </div>
-<div id="my-second-post-note-the-order" class="section level1">
-<h1>My second post (note the order)</h1>
-<p>2018 | 7 | 23 Last compiled: 2021-10-10</p>
-<p>I’m writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom</p>
-</div>
-<div id="adding-r-stuff" class="section level1">
-<h1>Adding R stuff</h1>
-<p>So far this is just a blog where you can write in plain text and serve your writing to a webpage. One of the main purposes of this lab journal is to record your progress learning R. The reason I am asking you to use this process is because you can both make a website, and a lab journal, and learn R all in R-studio. This makes everything really convenient and in the sam place.</p>
-<p>So, let’s say you are learning how to make a histogram in R. For example, maybe you want to sample 100 numbers from a normal distribution with mean = 0, and standard deviation =1, and then you want to plot a histogram. You can do this right here by using an r code block, like this:</p>
-<pre class="r"><code>samples &lt;- rnorm(100, mean=0, sd=1)
-hist(samples)</code></pre>
-<p><img src="Journal_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag), from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You learn all of these things and more can be customized in each R code block.</p>
-</div>
-<div id="the-big-idea" class="section level1">
-<h1>The big idea</h1>
-<p>Use this lab journal to record what you do in R. This way I will be able to see what you are doing and help you along the way. You will also be creating a repository of all the things you do. You can make posts about everything. Learning specific things in R (project unrelated), and doing things for the project that we will discuss at the beginning of the Fall semester. You can get started now by fiddling around with googling things, and trying stuff out in R. I’ve placed some helpful starting links in the links page on this website</p>
-</div>
-<div id="what-can-you-do-right-now-by-yourself" class="section level1">
-<h1>What can you do right now by yourself?</h1>
-<p>It’s hard to learn programming when you don’t have specific problems that you are trying to solve. Everything just seems abstract.</p>
-<p>I wrote an <a href="https://crumplab.github.io/programmingforpsych/">introductory programming book that introduces R</a>, and gives some <a href="https://crumplab.github.io/programmingforpsych/programming-challenges-i-learning-the-fundamentals.html">concrete problems for you to solve</a>.</p>
-<p>To get the hang of journaling and solving the problems to learn programming, my suggestion is that you use this .Rmd file to solve the problems. It would look like this:</p>
-</div>
-<div id="problem-1" class="section level1">
-<h1>Problem 1</h1>
-<p>Do simple math with numbers, addition, subtraction, multiplication, division</p>
-<pre class="r"><code>1+2</code></pre>
-<pre><code>## [1] 3</code></pre>
-<pre class="r"><code>2*5</code></pre>
-<pre><code>## [1] 10</code></pre>
-<pre class="r"><code>5/3</code></pre>
-<pre><code>## [1] 1.666667</code></pre>
-<pre class="r"><code>(1+6+4)/5</code></pre>
-<pre><code>## [1] 2.2</code></pre>
-</div>
-<div id="problem-2" class="section level1">
-<h1>Problem 2</h1>
-<p>Put numbers into variables, do simple math on the variables</p>
-<pre class="r"><code>a&lt;-1
-b&lt;-2
-a+b</code></pre>
-<pre><code>## [1] 3</code></pre>
-<pre class="r"><code>d&lt;-c(1,2,3)
-e&lt;-c(5,6,7)
-d+e</code></pre>
-<pre><code>## [1]  6  8 10</code></pre>
-<pre class="r"><code>d*e</code></pre>
-<pre><code>## [1]  5 12 21</code></pre>
-<pre class="r"><code>d/e</code></pre>
-<pre><code>## [1] 0.2000000 0.3333333 0.4285714</code></pre>
-</div>
-<div id="problem-3" class="section level1">
-<h1>Problem 3</h1>
-<p>Write code that will place the numbers 1 to 100 separately into a variable using for loop. Then, again using the seq function.</p>
-<pre class="r"><code># for loop solution
-# i becomes the number 1 to 100 at each step of the loop
+<div id="problem-2-variables" class="section level3">
+<h3>Problem 2: Variables</h3>
+<pre class="r"><code>variable.names(dat)</code></pre>
+<pre><code>## [1] &quot;mjage&quot;     &quot;cigage&quot;    &quot;iralcage&quot;  &quot;age2&quot;      &quot;sexatract&quot; &quot;speakengl&quot;
+## [7] &quot;irsex&quot;</code></pre>
+<pre class="r"><code># Describe the variables in the dataset.
+# &quot;mjage&quot;     &quot;cigage&quot;    &quot;iralcage&quot;  &quot;age2&quot; &quot;sexatract&quot; &quot;speakengl&quot; &quot;irsex&quot;
 
 
-a &lt;- length(100) # make empty variable, set length to 100
-for (i in 1:100){
-  a[i] &lt;-i #assigns the number in i, to the ith index of a
-}
-
-print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
-##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
-##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
-##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
-##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
-##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
-<pre class="r"><code># for loop solution #2
-
-a&lt;-c() #create empty variable using combine command
-for (i in 1:100){
-  a&lt;-c(a,i) # keeps combining a with itself and the new number in i
-}
-print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
-##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
-##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
-##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
-##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
-##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
-<pre class="r"><code># seq solution
-a &lt;- seq(1,100,1) # look up help for seq using ?seq() in console
-print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
-##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
-##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
-##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
-##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
-##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
+# What is this dataset about? Who collected the data, what kind of sample is it, and what was the purpose of generating the data?
+# The dataset is about the correlation between illicit drugs and alcohol and tobacco use and mental health in the USA.
+# The sample was collected by the NSDUH
+# It is a state level small area estimate sample 
+# The purpose of generating the data was to spot a correlation and trend to better respond to the issues of both drug use and mental illness. </code></pre>
 </div>
-<div id="replace-this-with-problem-4" class="section level1">
-<h1>Replace this with problem 4</h1>
-<p>And keep going. Try to solve the problems with different scripts that provide the same solution. Good luck, Happy coding.</p>
+<div id="problem-3-age-and-gender" class="section level3">
+<h3>Problem 3: Age and gender</h3>
+<pre class="r"><code>hist(dat$age2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code># What is the age distribution of the sample like? Make sure you read the codebook to know what the variable values mean.
+# Sampled those 12 and under. 
+#The age distribution isn&#39;t as level as It should be it weighs more between the ages categories of 12 and 16. But this does seem to caputure the majority of the ages that would be using. 
+
+# Do you think this age distribution representative of the US population? Why or why  not?
+# I think it&#39;s a good representation although with any self reporting study, especially one with such a personal variable I think it&#39;s possible that even the reporting of one&#39;s age could be disrupted. 
+
+# Is the sample balanced in terms of gender? If not, are there more females or males?
+# If I am reading the table correctly it looks as though there are more males than females being surveyed. But overall yes it is very balanced. 
+
+# Use this code to draw a stacked bar plot to view the relationship between sex and age. What can you conclude from this plot?</code></pre>
+<pre class="r"><code>tab.agesex &lt;- table(dat$irsex, dat$age2)
+barplot(tab.agesex,
+        main = &quot;Stacked barchart&quot;,
+        xlab = &quot;Age category&quot;, ylab = &quot;Frequency&quot;,
+        legend.text = rownames(tab.agesex),
+        beside = FALSE) # Stacked bars (default)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>#You can clearly see the correlation between age and sex.</code></pre>
+</div>
+<div id="problem-4-substance-use" class="section level3">
+<h3>Problem 4: Substance use</h3>
+<pre class="r"><code># For which of the three substances included in the dataset (marijuana, alcohol, and cigarettes) do individuals tend to use the substance earlier?
+#Cigarettes
+
+hist(dat$mjage)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>hist(dat$cigage)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+</div>
+<div id="problem-5-sexual-attraction" class="section level3">
+<h3>Problem 5: Sexual attraction</h3>
+<pre class="r"><code>hist(dat$irsex)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>hist(dat$sexatract)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<pre class="r"><code># What does the distribution of sexual attraction look like? Is this what you expected?
+#The distribution of sexual attraction seemed to be very skewed. There is a much higher report of heterosexual attraction on average than there is in the US. 
+#I do, however, understand how subjects would refuse to answer such a personal question especially if they felt their answer could produced some sort of bias&#39;s towards their sexual prefrence. 
+
+# What is the distribution of sexual attraction by gender? 
+#It&#39;s a pretty good distribution it&#39;s almost level. It seems as though there is just a small margin of difference. </code></pre>
+</div>
+<div id="problem-6-english-speaking" class="section level3">
+<h3>Problem 6: English speaking</h3>
+<pre class="r"><code>hist(dat$speakengl)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code># What does the distribution of English speaking look like in the sample? Is this what you might expect for a random sample of the US population?
+#Yes this is what I would expect for a random US Sample population. The distribution is almost all the way skewed towards the &quot;very well&quot; category and only a small margin fell right before the &quot;well&quot; category and as expected an even smaller margin reported they did not speak english.
+# Are there more English speaker females or males?
+#The stacked barchart shows there are more English speaking males than females.</code></pre>
+<pre class="r"><code>tab.agespeakengl &lt;- table(dat$speakengl, dat$age2)</code></pre>
+<pre class="r"><code>tab.speakenglsex &lt;- table(dat$irsex, dat$speakengl)
+barplot(tab.speakenglsex,
+        main = &quot;Stacked barchart&quot;,
+        xlab = &quot;Sex category&quot;, ylab = &quot;Frequency&quot;,
+        legend.text = rownames(tab.speakenglsex),
+        beside = FALSE) # Stacked bars (default)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+</div>
+<div id="exam-1" class="section level1">
+<h1>Exam 1</h1>
+<div id="problem-1-10-points" class="section level3">
+<h3>Problem 1 (10 points)</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the dataset. This is the source: <a href="https://github.com/washingtonpost/data-police-shootings" class="uri">https://github.com/washingtonpost/data-police-shootings</a> . Write two sentences (max.) about this.</li>
+</ol>
+<p>__The Washing Post Dataset contains detailed records of every known fatal shooting by a a police officer while he was on the clock. The Dataset has also noted specific details about the deceased such as gender, age, race, the circumstance of the shooting and whether or not the person was experiencing a mental health crisis.</p>
+<pre class="r"><code>dat &lt;- read.csv(&quot;fatal-police-shootings-data.csv&quot;)</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>How many observations are there in the data frame?</li>
+</ol>
+<p>There are 6594 observations in the date frame.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Look at the names of the variables in the data frame. Describe what “body_camera”, “flee”, and “armed” represent, according to the codebook. Again, only write one sentence (max) per variable.</li>
+</ol>
+<p>“body-camera” refers to if the officer was wearing a body camera because it may have recorded some portion of the incident. “flee” refers to when the vicitm was moving away from the officers. “armed” indicates that the victim was armed with something that the police officer believed could inflict harm.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>What are three weapons that you are surprised to find in the “armed” variable? Make a table of the values in “armed” to see the options.</li>
+</ol>
+<pre class="r"><code>table(dat$armed)</code></pre>
+<pre><code>## 
+##                                                   air conditioner 
+##                              207                                1 
+##                       air pistol                   Airsoft pistol 
+##                                1                                3 
+##                               ax                         barstool 
+##                               24                                1 
+##                     baseball bat          baseball bat and bottle 
+##                               20                                1 
+## baseball bat and fireplace poker           baseball bat and knife 
+##                                1                                1 
+##                            baton                           BB gun 
+##                                6                               15 
+##               BB gun and vehicle                     bean-bag gun 
+##                                1                                1 
+##                      beer bottle                       binoculars 
+##                                3                                1 
+##                     blunt object                           bottle 
+##                                5                                1 
+##                    bow and arrow                       box cutter 
+##                                1                               13 
+##                            brick              car, knife and mace 
+##                                2                                1 
+##                          carjack                            chain 
+##                                1                                3 
+##                        chain saw                         chainsaw 
+##                                2                                1 
+##                            chair              claimed to be armed 
+##                                4                                1 
+##               contractor&#39;s level                   cordless drill 
+##                                1                                1 
+##                         crossbow                          crowbar 
+##                                9                                5 
+##                        fireworks                         flagpole 
+##                                1                                1 
+##                       flashlight                      garden tool 
+##                                2                                2 
+##                      glass shard                          grenade 
+##                                4                                1 
+##                              gun                      gun and car 
+##                             3798                               12 
+##                    gun and knife                  gun and machete 
+##                               22                                3 
+##                    gun and sword                  gun and vehicle 
+##                                1                               17 
+##              guns and explosives                           hammer 
+##                                3                               18 
+##                       hand torch                          hatchet 
+##                                1                               14 
+##                  hatchet and gun                         ice pick 
+##                                2                                1 
+##                incendiary device                            knife 
+##                                2                              955 
+##                knife and vehicle                 lawn mower blade 
+##                                1                                2 
+##                          machete                  machete and gun 
+##                               51                                1 
+##                     meat cleaver                  metal hand tool 
+##                                6                                2 
+##                     metal object                       metal pipe 
+##                                5                               16 
+##                       metal pole                       metal rake 
+##                                4                                1 
+##                      metal stick                       microphone 
+##                                3                                1 
+##                       motorcycle                         nail gun 
+##                                1                                1 
+##                              oar                       pellet gun 
+##                                1                                3 
+##                              pen                     pepper spray 
+##                                1                                2 
+##                         pick-axe                    piece of wood 
+##                                4                                7 
+##                             pipe                        pitchfork 
+##                                7                                2 
+##                             pole                   pole and knife 
+##                                3                                2 
+##                  railroad spikes                             rock 
+##                                1                                7 
+##                    samurai sword                         scissors 
+##                                4                                9 
+##                      screwdriver                     sharp object 
+##                               16                               14 
+##                           shovel                            spear 
+##                                7                                2 
+##                          stapler              straight edge razor 
+##                                1                                5 
+##                            sword                            Taser 
+##                               23                               34 
+##                        tire iron                       toy weapon 
+##                                4                              226 
+##                          unarmed                     undetermined 
+##                              421                              188 
+##                   unknown weapon                          vehicle 
+##                               82                              213 
+##                  vehicle and gun              vehicle and machete 
+##                                8                                1 
+##                    walking stick                       wasp spray 
+##                                1                                1 
+##                           wrench 
+##                                1</code></pre>
+<p>I was surprised to “binoculars” “pen” “air conditioner”.</p>
+</div>
+<div id="problem-2-10-points" class="section level3">
+<h3>Problem 2 (10 points)</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the age distribution of the sample. Is this what you would expect to see?</li>
+</ol>
+<pre class="r"><code>table(dat$age)</code></pre>
+<pre><code>## 
+##   6  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30 
+##   2   1   2   3  16  35  56 109  98 105 124 138 148 179 216 188 217 194 204 204 
+##  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50 
+## 223 207 205 209 196 186 183 164 165 140 142 112 120 101 126 109 115 110 103  95 
+##  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70 
+##  89  82  78  71  67  72  58  56  66  47  44  45  35  25  28  19  23  16  17  16 
+##  71  72  73  74  75  76  77  78  79  80  81  82  83  84  86  88  89  91 
+##  12   7   7   6   5  12   5   1   4   5   3   2   3   4   2   1   1   2</code></pre>
+<p><strong>The age distribution is about what I expected, of course the younger ages were concerning but not suprising.</strong></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>To understand the center of the age distribution, would you use a mean or a median, and why? Find the one you picked.</li>
+</ol>
+<p>To find the center or age distribution I would use the meean. Even if we lined up all the varibles in order and used the median distribution we wouldn’t really see the the middle of distrubtion because there are so many duplicate values. The mean would record a more accurate display of the center of distrubtion.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Describe the gender distribution of the sample. Do you find this surprising?</li>
+</ol>
+<pre class="r"><code>table(dat$gender)</code></pre>
+<pre><code>## 
+##         F    M 
+##    3  293 6298</code></pre>
+<pre class="r"><code>#The gender distrubtion isn&#39;t equal which makes sense. It&#39;s recording far more male victims than female victimes, I am not suprised by this.</code></pre>
+<p><strong>Your answer here.</strong></p>
+</div>
+<div id="problem-3-10-points" class="section level3">
+<h3>Problem 3 (10 points)</h3>
+<ol style="list-style-type: lower-alpha">
+<li>How many police officers had a body camera, according to news reports? What proportion is this of all the incidents in the data? Are you surprised that it is so high or low?</li>
+</ol>
+<pre class="r"><code>table(dat$body_camera)</code></pre>
+<pre><code>## 
+## False  True 
+##  5684   910</code></pre>
+<pre class="r"><code>#I not suprised by this report. Only 910 police officers had a body camera. In terms of these recordings, this is only a little bit more than a sixth of the incidents recorded. </code></pre>
+<p><strong>Your answer here.</strong></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>In how many of the incidents was the victim fleeing? What proportion is this of the total number of incidents in the data? Is this what you would expect?</li>
+</ol>
+<pre class="r"><code>table(dat$flee)</code></pre>
+<pre><code>## 
+##                     Car        Foot Not fleeing       Other 
+##         491        1058         845        3952         248</code></pre>
+<pre class="r"><code>#About 2394 of the incidents included incidents of victim fleeing. This is about less than half of the total incidents. I would expect the rate to be higher, or for the reports, by the officers, of the fleeing to be higher. </code></pre>
+<p><strong>Your answer here.</strong></p>
+</div>
+<div id="problem-4-10-points---answer-only-one-of-these-a-or-b." class="section level3">
+<h3>Problem 4 (10 points) - Answer only one of these (a or b).</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the relationship between the variables “body camera” and “flee” using a stacked barplot. What can you conclude from this relationship?</li>
+</ol>
+<p><em>Hint 1: The categories along the x-axis are the options for “flee”, each bar contains information about whether the police officer had a body camera (vertically), and the height along the y-axis shows the frequency of that category).</em></p>
+<p><em>Hint 2: Also, if you are unsure about the syntax for barplot, run ?barplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.</em></p>
+<pre class="r"><code>?barplot
+counts &lt;- table(dat$body_camera, dat$flee)
+barplot(counts, col=c(&quot;red&quot;, &quot;blue&quot;), legend=TRUE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<pre class="r"><code>#The relationship between the use of body cameras and the product the victims fleeing implies some sort of quantitative corrleation but not a dinifitive casuation. Just because a police officer has a camera means the victim will flee. </code></pre>
+<p><strong>Your answer here.</strong></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Describe the relationship between age and race by using a boxplot. What can you conclude from this relationship?</li>
+</ol>
+<p><em>Hint 1: The categories along the x-axis are the race categories and the height along the y-axis is age.</em></p>
+<p><em>Hint 2: Also, if you are unsure about the syntax for boxplot, run ?boxplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.</em></p>
+<pre class="r"><code>plot(factor(dat$race), dat$number.of.convictions, ylab=&quot;Convictions&quot;, xlab=&quot;Race&quot;, names=c(&quot;A. Indian&quot;,&quot;Asian&quot;,&quot;Black&quot;,&quot;Native Hawaii&quot;,&quot;White&quot;))</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><strong>Your answer here.</strong></p>
+</div>
+<div id="extra-credit-10-points" class="section level3">
+<h3>Extra credit (10 points)</h3>
+<ol style="list-style-type: lower-alpha">
+<li>What does this code tell us?</li>
+</ol>
+<pre class="r"><code>mydates &lt;- as.Date(dat$date)
+head(mydates)
+(mydates[length(mydates)] - mydates[1])</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>On Friday, a new report was published that was described as follows by The Guardian: “More than half of US police killings are mislabelled or not reported, study finds.” Without reading this article now (due to limited time), why do you think police killings might be mislabelled or underreported?</p></li>
+<li><p>Regarding missing values in problem 4, do you see any? If so, do you think that’s all that’s missing from the data?</p></li>
+</ol>
+</div>
 </div>
 
 
